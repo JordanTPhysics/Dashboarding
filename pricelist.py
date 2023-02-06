@@ -15,6 +15,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import logging
 
+#elec cons per month of yearly total (%)
+elec_profile = [11.5, 8.5, 10.5, 8, 7.5, 6, 6, 7.5, 8.5, 9.5, 11, 12]
+#gas cons per month of yearly total (%)
+gas_profile = [12, 10.5, 11, 7.5, 6.5, 5.5, 5, 5.5, 7.5, 7.5, 11, 12]
+
+standing_charges = ['standing', 'meter', 'capacity', 'mop']
 
 class MeterSite():
     
@@ -55,7 +61,8 @@ class PriceList():
         return sum(self.units) * consumption + sums
     
     
-    ## a function that takes in sitelist and uses eac of each to calculate total
+    ## sums eacs for sitelist to predict overall contract cons
+    # period param is contract length standard unit 1 year
     def total_cons(sitelist, period):
         
         cons = 0
@@ -73,6 +80,7 @@ year1 = {"Unit Rate": 9.34,
                 "Standing Chg": 4.65}
 
 year2 = {"Unit Rate": 10.354,
+                #"Available Capacity": 30,
                 "RO": 0.593,
                 "FiT": 1.024,
                 "Standing Chg": 7.65}
@@ -145,13 +153,61 @@ def compare(prev, next):
 
 
 creep = []
+tur = []
+tst = []
 # start evaluating pricelists against the previous, starts from 2nd element
 for year, pricelist in enumerate(pricelists[1:]):
     diff = compare(pricelists[year], pricelist)
     creep.append(diff)
-    
+    tur.append(diff["TUR"])
+    tst.append(diff["TST"])
     
 
+
+def reformat(metric):
+    
+    
+    #regroup values by class
+    #so each successive list element is the next year/contract
+    
+    old = [olr[0] for olr in tur]
+    new = [newr[1] for newr in tur]
+    pct_change = [p[2] for p in tur]  
+    alls = new.insert(0, old[0])
+    pcts = pct_change.insert(0, 0)
+    
+    return (alls, pcts)
+    
+#plot yearly changes
+
+def plot_change(metric, pct, start, name):
+    
+    
+    
+    x = np.arange(len(metric))
+    width = 0.35
+    
+    
+    fig, ax = plt.subplots()
+    rects1 = ax.bar(x - width/2, metric, width, label=name)
+    rects2 = ax.bar(x + width/2, pct, width, label='%')
+    ax.set_ylabel('Change')
+    ax.set_title(f'change in {name} costs')
+    ax.set_xticks(x, [str(start + yr) for yr in x])
+    ax.legend()
+
+    ax.bar_label(rects1, padding=3)
+    ax.bar_label(rects2, padding=3)
+
+    fig.tight_layout()
+    
+    plt.savefig(F"images/{name}.png")
+    plt.show()
+    plt.clf()
+    
+    return
+
+plot_change(new, pct_change, 2017, "total UR")
 
 
 
