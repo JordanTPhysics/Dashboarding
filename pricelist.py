@@ -20,7 +20,6 @@ elec_profile = [11.5, 8.5, 10.5, 8, 7.5, 6, 6, 7.5, 8.5, 9.5, 11, 12]
 #gas cons per month of yearly total (%)
 gas_profile = [12, 10.5, 11, 7.5, 6.5, 5.5, 5, 5.5, 7.5, 7.5, 11, 12]
 
-standing_charges = ['standing', 'meter', 'capacity', 'mop']
 
 class MeterSite():
     
@@ -145,8 +144,8 @@ def compare(prev, next):
     standing_pct = 100 * (total_standing - total_st_old) / total_st_old
         
         # totals and percent increase in costs shown
-    returns["TST"] = [total_st_old, total_standing, standing_pct]
-    returns["TUR"] = [total_unit_old, total_unit, unit_pct]   
+    returns["TST"] = [total_st_old, total_unit_old]
+    returns["TUR"] = [total_standing, total_unit]   
     
             
     return returns
@@ -181,9 +180,6 @@ def reformat(metric):
 #plot yearly changes
 
 def plot_change(metric, pct, start, name):
-    
-    
-    
     x = np.arange(len(metric))
     width = 0.35
     
