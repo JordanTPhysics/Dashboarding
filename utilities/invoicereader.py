@@ -9,7 +9,7 @@ and extract the relevant information therefrom
 """
 
 class InvoiceReader():
-    
+    pass
     
 import re
 

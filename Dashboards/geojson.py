@@ -10,32 +10,31 @@ Read geojson files
 
 import json
 import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
 
-df = pd.read_csv("elec-cons-regions.csv", encoding='latin1')
+df = pd.read_csv("datasets/elec-cons-regions.csv", encoding='latin1')
 
-with open("lad.json") as f:
-   data = json.load(f)
-   
-   
-features = data['features']
-   
+with open("datasets/lad.json") as f:
+    data = json.load(f)
+
+gdf = gpd.GeoDataFrame.from_features(data['features'])
+
+gdf.set_index('LAD13NM', inplace=True)
+df.set_index('LAD13NM', inplace=True)
 
 
-def create_geo_df(regions, features):
-    
-    geodata = []
-    
-    for feature in features:
-        properties = feature['properties']
-        name = properties['LAD13NM']
+merge =  gdf.join(df, how='left', lsuffix='_gdf', rsuffix='_df')
+merge['domestic_mean_kwh'] = merge['domestic_mean_kwh'].fillna(0)
 
-        code = properties['LAD13CD']
-        geometry = feature['geometry']
-        coordinates = geometry['coordinates']
-        shape = geometry['type']
-        print((code, name, shape, coordinates))
-        geodata.append((code, name, shape, coordinates))
-        
-        return pd.DataFrame(geodata, columns=["Code", "Name", "Shape", "Coords"])
+years = df['year'].unique()
 
-geodata = create_geo_df(df['la_name'].tolist(), features)
+for year in years:
+    fig, ax = plt.subplots(1, 1)
+    merge.plot(column='domestic_mean_kwh', ax=ax, legend=True)
+    fig.suptitle('UK Domestic Electricity Consumption ' + str(year))
+    fig.savefig('figures/uk_domestic_cons' + str(year) + '.png')
+    fig.clf()
+
+
+
