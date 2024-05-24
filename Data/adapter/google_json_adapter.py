@@ -1,13 +1,18 @@
 import ijson
 import csv
 
+from models.Place import Place
+from models.Review import Review
+
 place_model = ["PlaceID",
         "Address",
         "Latitude",
         "Longitude",
         "DisplayName",
         "Rating",
-        "Url"]
+        "Url",
+        "Types",
+        "Prompt"]
 
 review_model = ["PlaceID",
         "Rating",
@@ -28,8 +33,7 @@ def process_review(review):
         'Timestamp': timestamp
     }
 
-
-def process_place(place):
+def process_place(place, prompt):
     place_id = place.get('name').split('/')[1]
     formatted_address = place.get('formattedAddress')
     location = place.get('location', {})
@@ -38,6 +42,7 @@ def process_place(place):
     display_name_text = place.get('displayName', {}).get('text')
     rating = place.get('rating')
     website_uri = place.get('websiteUri')
+    types = ", ".join(place.get('types'))
 
     return  {
         'PlaceID': place_id,
@@ -46,7 +51,9 @@ def process_place(place):
         'Longitude': longitude,
         'DisplayName': display_name_text,
         'Rating': rating,
-        'Url': website_uri
+        'Url': website_uri,
+        'Types': types,
+        'Prompt': prompt
     }
 
 def parse_large_json(file_path):
@@ -79,4 +86,4 @@ def save_to_csv(data, file_name, headers):
         dict_writer.writerows(data)
 
 if __name__ == '__main__':
-    parse_large_json('../datasets/places/mosques_uk.json')
+    parse_large_json('../datasets/places/river_tour_uk.json')

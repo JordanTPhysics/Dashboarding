@@ -1,0 +1,26 @@
+DROP DATABASE IF EXISTS PlacesDB;
+
+CREATE DATABASE IF NOT EXISTS PlacesDB;
+
+USE PlacesDB;
+
+CREATE TABLE Places (
+    PlaceID VARCHAR(40) PRIMARY KEY ,
+    Address VARCHAR(255) NOT NULL,
+    PlaceName VARCHAR(255) NOT NULL,
+    Latitude REAL NOT NULL,
+    Longitude REAL NOT NULL,
+    Rating REAL,
+    Url VARCHAR(255),
+    Types VARCHAR(255),
+    Prompt VARCHAR(255)
+);
+
+CREATE TABLE Reviews (
+    ReviewID INTEGER AUTO_INCREMENT PRIMARY KEY,
+    PlaceID VARCHAR(40),
+    ReviewText TEXT,
+    TimeStamp DATE,
+    Rating INTEGER,
+    FOREIGN KEY (PlaceID) REFERENCES Places (PlaceID)
+);

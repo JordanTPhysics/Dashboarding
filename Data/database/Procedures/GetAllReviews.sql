@@ -1,0 +1,12 @@
+USE PlacesDB;
+
+DROP PROCEDURE IF EXISTS GetAllReviews;
+
+DELIMITER $$
+
+CREATE PROCEDURE GetAllReviews()
+BEGIN
+    SELECT * FROM Reviews;
+END$$
+
+DELIMITER ;
