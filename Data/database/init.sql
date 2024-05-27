@@ -8,9 +8,9 @@ CREATE TABLE Places (
     PlaceID VARCHAR(40) PRIMARY KEY ,
     Address VARCHAR(255) NOT NULL,
     PlaceName VARCHAR(255) NOT NULL,
-    Latitude REAL NOT NULL,
-    Longitude REAL NOT NULL,
-    Rating REAL,
+    Latitude DECIMAL NOT NULL,
+    Longitude DECIMAL NOT NULL,
+    Rating DECIMAL,
     Url VARCHAR(255),
     Types VARCHAR(255),
     Prompt VARCHAR(255)
@@ -21,6 +21,6 @@ CREATE TABLE Reviews (
     PlaceID VARCHAR(40),
     ReviewText TEXT,
     TimeStamp DATE,
-    Rating INTEGER,
+    Rating DECIMAL,
     FOREIGN KEY (PlaceID) REFERENCES Places (PlaceID)
 );

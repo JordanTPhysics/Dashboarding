@@ -7,11 +7,11 @@ DELIMITER $$
 CREATE PROCEDURE InsertReview (
     IN pplace_id VARCHAR(40),
     IN preview_text TEXT,
-    IN prating REAL,
+    IN prating DECIMAL,
     IN ptime_stamp DATE
 )
 BEGIN
-    INSERT INTO Reviews (
+    INSERT IGNORE INTO Reviews (
         PlaceID,
         ReviewText,
         Rating,

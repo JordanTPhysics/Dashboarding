@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 
 # Step 1: Load and preprocess the data
-data = pd.read_csv('customer_reviews.csv')
+data = pd.read_csv('../../../Data/.csv')
 reviews = data['review_text']
 labels = data['category']
 

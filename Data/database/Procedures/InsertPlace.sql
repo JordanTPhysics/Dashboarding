@@ -10,13 +10,13 @@ CREATE PROCEDURE InsertPlace (
     IN paddress VARCHAR(255),
     IN platitude DECIMAL(9,6),
     IN plongitude DECIMAL(9,6),
-    IN prating INT,
+    IN prating DECIMAL,
     IN purl VARCHAR(255),
     IN ptypes VARCHAR(255),
     IN pprompt VARCHAR(255)
 )
 BEGIN
-    INSERT INTO Places (
+    INSERT IGNORE INTO Places (
         PlaceID,
         PlaceName,
         Address,
