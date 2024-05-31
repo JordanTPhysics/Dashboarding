@@ -85,6 +85,7 @@ def begin_crawler(query, db):
     places = []
     reviews = []
     page = 0
+    next_page_token = None
 
     response = requests.post(BASE_URL, headers=headers, params=payload)
     
@@ -93,7 +94,6 @@ def begin_crawler(query, db):
         return
     
     logging.debug(f'Page {page}')
-    logging.debug(f'Next Page Token: {response.json().get('nextPageToken')}')
 
     with io.StringIO(response.text) as data:
         place_list = ijson.items(data, 'places.item')
@@ -105,7 +105,7 @@ def begin_crawler(query, db):
             review_list = content.get('reviews', [])
             reviews.extend(add_reviews(review_list))
 
-    next_page_token = response.json().get('nextPageToken')
+    #next_page_token = response.json().get('nextPageToken')
     while next_page_token:
         logging.debug(f'Page {page}')
         time.sleep(2)

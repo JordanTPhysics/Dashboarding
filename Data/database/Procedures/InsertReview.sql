@@ -1,27 +1,36 @@
-USE PlacesDB;
 
-DROP PROCEDURE IF EXISTS InsertReview;
+
+USE `placesdb`;
+DROP PROCEDURE IF EXISTS `InsertReview`;
+
+USE `placesdb`;
+DROP PROCEDURE IF EXISTS `placesdb`.`InsertReview`;
+;
 
 DELIMITER $$
-
-CREATE PROCEDURE InsertReview (
-    IN pplace_id VARCHAR(40),
+USE `placesdb`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertReview`(
+    IN pplace_id VARCHAR(30),
     IN preview_text TEXT,
     IN prating DECIMAL,
-    IN ptime_stamp DATE
+    IN ptime_stamp VARCHAR(30)
 )
 BEGIN
     INSERT IGNORE INTO Reviews (
         PlaceID,
         ReviewText,
-        Rating,
-        TimeStamp
+        rating,
+        TimeStamp,
+        ReviewHash
         )
     VALUES (
         pplace_id,
         preview_text,
         prating,
-        ptime_stamp);
+        STR_TO_DATE(ptime_stamp, '%Y-%m-%dT%H:%i:%sZ'),
+        MD5(preview_text));
 END$$
 
 DELIMITER ;
+;
+

@@ -34,7 +34,6 @@ class DataAdapter:
         self.cursor = self.connection.cursor()
         try:
             for place in places:
-                logging.debug(place)
                 self.cursor.callproc('InsertPlace',
                                       (place["PlaceID"],
                                        place["DisplayName"],

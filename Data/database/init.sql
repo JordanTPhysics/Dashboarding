@@ -22,5 +22,6 @@ CREATE TABLE Reviews (
     ReviewText TEXT,
     TimeStamp DATE,
     Rating DECIMAL,
+    ReviewHash VARCHAR(32) UNIQUE,
     FOREIGN KEY (PlaceID) REFERENCES Places (PlaceID)
 );
