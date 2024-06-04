@@ -7,3 +7,4 @@ ENV/
 env/
 .vscode/
 Data/datasets/geodata/
+client/node_modules/

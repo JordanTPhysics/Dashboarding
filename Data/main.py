@@ -26,9 +26,10 @@ def main(use_preset=False):
     db = DataAdapter(db_config)
 
     if use_preset:
-        places = pd.read_csv('datasets/venues.csv', encoding='utf-8')['Place']
+        places = pd.read_csv('datasets/venues.csv', encoding='utf-8')['Places']
+        places_reversed = pd.read_csv('datasets/venues.csv', encoding='utf-8')['Places'][::-1]
         regions = pd.read_csv('datasets/locations_uk.csv', encoding='utf-8')['City']
-        for place in places:
+        for place in places_reversed:
             for region in regions:
                 begin_crawler(f'{place} {region}', db)
     else:

@@ -27,9 +27,10 @@ def check_mysql_connection(user, password, host, database):
             connection.close()
             print("MySQL connection is closed")
 
-user = os.getenv('MYSQL_USER')
-password = os.getenv('MYSQL_PASSWORD')
-host = os.getenv('MYSQL_HOST')
-database = os.getenv('MYSQL_DATABASE')
+if __name__ == '__main__':
+    user = os.getenv('MYSQL_USER')
+    password = os.getenv('MYSQL_PASSWORD')
+    host = os.getenv('MYSQL_HOST')
+    database = os.getenv('MYSQL_DATABASE')
 
-check_mysql_connection(user, password, host, database)
+    check_mysql_connection(user, password, host, database)

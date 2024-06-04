@@ -1,8 +1,12 @@
 import mysql.connector as msql
 import logging
-from models.Place import Place
-from models.Review import Review
+from Data.models.Place import Place
+from Data.models.Review import Review
+
 from typing import List
+
+import pandas as pd
+from pandas import DataFrame
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -28,54 +32,55 @@ class DataAdapter:
                 self.close()
         return wrapper
 
+    @db_transaction
     def bulk_insert_places(self, places):
-        logging.debug('opening db connection')
-        self.connection = msql.connect(**self.db_config)
-        self.cursor = self.connection.cursor()
-        try:
-            for place in places:
-                self.cursor.callproc('InsertPlace',
-                                      (place["PlaceID"],
-                                       place["DisplayName"],
-                                       place["Address"],
-                                       place["Latitude"],
-                                       place["Longitude"],
-                                       place["Rating"] if place["Rating"] is not None else -1.0,
-                                       place["Url"],
-                                       place["Types"],
-                                       place["Prompt"]))
-            self.connection.commit()
-        except msql.Error as e:
-            logging.error(f'Error: {e}')
-        finally:
-            self.close()
+        for place in places:
+            self.cursor.callproc('InsertPlace',
+                                (place["PlaceID"],
+                                place["DisplayName"],
+                                place["Address"],
+                                place["Latitude"],
+                                place["Longitude"],
+                                place["Rating"] if place["Rating"] is not None else -1.0,
+                                place["Url"],
+                                place["Types"],
+                                place["Prompt"]))
 
+    @db_transaction
     def bulk_insert_reviews(self, reviews):
-        self.connection = msql.connect(**self.db_config)
-        self.cursor = self.connection.cursor()
-        try:
-            for review in reviews:
-                self.cursor.callproc('InsertReview', (review["PlaceID"],
-                                                      review["Text"],
-                                                      review["Rating"],
-                                                      review["Timestamp"]))
-            self.connection.commit()
-        except msql.Error as e:
-            print(f'Error: {e}')
-        finally:
-            self.close()
+        for review in reviews:
+            self.cursor.callproc('InsertReview',
+                                (review["PlaceID"],
+                                review["Text"],
+                                review["Rating"],
+                                review["Timestamp"]))
 
-    def retrieve_all_places(self) -> List[Place]:
+
+    @db_transaction
+    def all_places_dataframe(self) -> DataFrame:
         self.cursor.callproc('GetAllPlaces')
         result = next(self.cursor.stored_results())
 
-        return result.fetchall()
+        return pd.DataFrame(result.fetchall())
 
-    def retrieve_all_reviews(self) -> List[Review]:
+    @db_transaction
+    def all_reviews_dataframe(self) -> DataFrame:
         self.cursor.callproc('GetAllReviews')
         result = next(self.cursor.stored_results())
 
-        return result.fetchall()
+        return pd.DataFrame(result.fetchall(), columns=['PlaceID', 'Text', 'Rating', 'Timestamp'])
+    
+    @db_transaction
+    def filtered_reviews(self, rating=None, contains=None, place_name=None, review_date=None, type=None, prompt=None) -> DataFrame:
+        self.cursor.callproc('GetFilteredReviews', (rating, contains, place_name, review_date, type, prompt))
+        result = next(self.cursor.stored_results())
+        return pd.DataFrame(result.fetchall(), columns=['ReviewID', 'PlaceName', 'ReviewText', 'Rating', 'PlaceTypes', 'QueryPrompt', 'PlaceRating', 'ReviewDate'])
+    
+    @db_transaction
+    def filtered_places(self, rating=None, contains=None, place_name=None, type=None, prompt=None, radius=None, latitude=None, longitude=None) -> DataFrame:
+        self.cursor.callproc('GetFilteredPlaces', (rating, contains, place_name, type, prompt, radius, latitude, longitude))
+        result = next(self.cursor.stored_results())
+        return pd.DataFrame(result.fetchall(), columns=['PlaceID', 'PlaceName', 'Address', 'Rating', 'Website', 'Types', 'Prompt', 'Latitude', 'Longitude'])
 
     def close(self):
         self.connection.close()

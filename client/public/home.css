@@ -1,0 +1,180 @@
+:root {
+
+  --background: #0d114d;
+  --warning: rgba(233, 72, 8, 0.8);
+  --success: rgba(39, 181, 39, 0.8);
+  --danger: rgba(255, 0, 0, 0.8);
+  --info: rgba(53, 53, 193, 0.8);
+  --secondary: rgba(255, 0, 0, 0.8);
+  --light: rgba(245, 245, 245, 0.8);
+
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: var(--background);
+
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: var(--background);
+}
+
+* {
+  font-family: "Nunito", sans-serif;
+  text-align: center;
+  position: relative;
+  font-weight: bold;
+  color: rgba(245, 245, 245, 0.927);
+}
+
+h1 {
+  font-size: 3vh;
+}
+
+/* SmartPhone */
+@media screen and (max-width: 499px) {
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 4px 6px;
+    text-decoration: none;
+  }
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    display: block;
+  }
+
+}
+
+/* Tablets */
+@media screen and (max-width: 899px) and (min-width: 500px) {}
+
+/* Laptop */
+@media screen and (min-width: 900px) and (max-width: 1319px) {}
+
+/* Desktop */
+@media screen and (min-width: 1319px) {}
+
+.row {
+  width: 100vw;
+}
+
+header {
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: fit-content;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(36, 41, 41, 0.8);
+
+  color: white;
+}
+
+.container{
+  --bs-gutter-x: 0 !important;
+  --bs-gutter-y: 0 !important;
+  background-color: var(--background);
+  width: 100vw;
+
+}
+
+p {
+  font-size: 2vh;
+}
+
+.phone-number {
+  text-decoration: none;
+  /* Remove underline */
+  color: inherit;
+  /* Use the parent element's text color */
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #333;
+  flex-wrap: wrap;
+  display: flex;
+}
+
+li {
+  float: left;
+  flex: 1;
+
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #555;
+}
+
+img {
+  width: 20vw;
+  height: 20vw;
+  background-color: whitesmoke;
+  border: #fff 2px;
+  border-radius: 10%;
+}
+
+.menu-box {
+  width: 100vw;
+  height: 7vh;
+  background-color: rgba(72, 61, 139, 0.8);
+  display: flex;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: fit-content;
+  
+  color: white;
+}
+
+
+
+.salaah {
+  backface-visibility: hidden;
+}
+
+.footer {
+  position: absolute;
+  width: 100vw;
+  height: fit-content;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(36, 41, 41, 0.8);
+
+}
