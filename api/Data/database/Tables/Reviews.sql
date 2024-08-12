@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS Reviews (
+    ReviewID INTEGER AUTO_INCREMENT PRIMARY KEY,
+    PlaceID VARCHAR(40),
+    ReviewText TEXT,
+    TimeStamp DATE,
+    Rating DECIMAL,
+    ReviewHash VARCHAR(32) UNIQUE,
+    FOREIGN KEY (PlaceID) REFERENCES Places (PlaceID)
+);

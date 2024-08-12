@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --selected: 240 4.8% 95.9%;
+    --selected-foreground: 240 5.9% 10%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+
+    --radius: 0.5rem;
+
+    --background: 115 120 184;
+    --background-secondary: 155 155 245;
+    --border: 125 0 125;
+    --warning: 233 72 8 0.8;
+    --success: 39 181 39 0.8;
+    --danger: 255 0 0 0.8;
+    --info: 53 53 193 0.8;
+    --secondary: 255 0 0 0.8;
+    --contrast: 10 10 10 0.8;
+    --text: 33 33 60;
+  }
+  .dark {
+    --background: 38 32 59;
+    --background-secondary: 15 15 180;
+    --border: 155 155 245;
+    --warning: 233 72 8 0.8;
+    --success: 39 181 39 0.8;
+    --danger: 255 0 0 0.8;
+    --info: 53 53 193 0.8;
+    --secondary: 255 0 0 0.8;
+    --contrast: 245 245 245 0.8;
+    --text: 113 113 250;
+  }
+
+  .custom-link {
+    @apply text-2xl font-bold;
+    border: 0.25rem solid rgb(var(--border));
+    color: rgba(var(--border));
+    background-color: rgba(var(--background-secondary));
+    padding-left: 2px;
+    padding-right: 2px;
+    border-radius: 2px;
+  
+  }
+  
+  .custom-link:hover {
+    border-radius: 10px; 
+    border: 0.5rem solid rgba(var(--background-secondary) 1);
+    color: rgba(var(--background-secondary));
+    background-color: rgba(var(--border));
+  }
+  
+  .navigation-menu {
+    color: var(--menu-text-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+    flex-wrap: nowrap;
+  
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md;
+  }
+}

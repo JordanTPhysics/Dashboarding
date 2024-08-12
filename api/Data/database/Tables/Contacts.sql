@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS Contacts (
+    ID INTEGER AUTO_INCREMENT PRIMARY KEY,
+    PlaceID VARCHAR(40),
+    PhoneNumber VARCHAR(15),
+    Email VARCHAR(255),
+    Links VARCHAR(255),
+    FOREIGN KEY (PlaceID) REFERENCES Places (PlaceID)
+);

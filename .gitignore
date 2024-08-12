@@ -6,5 +6,6 @@ venv/
 ENV/
 env/
 .vscode/
-Data/datasets/geodata/
-client/node_modules/
+/Data/datasets/geodata/
+/next-app/node_modules/
+/geodata/

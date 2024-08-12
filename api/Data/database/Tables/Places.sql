@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS Places (
+    PlaceID VARCHAR(40) PRIMARY KEY ,
+    Address VARCHAR(255) NOT NULL,
+    PlaceName VARCHAR(255) NOT NULL,
+    Latitude DECIMAL NOT NULL,
+    Longitude DECIMAL NOT NULL,
+    Rating DECIMAL,
+    Url VARCHAR(255),
+    Types VARCHAR(255),
+    Prompt VARCHAR(255)
+);
