@@ -8,4 +8,11 @@ env/
 .vscode/
 /Data/datasets/geodata/
 /next-app/node_modules/
-/geodata/
+geodata/
+api/Data/datasets/geodata/Local_Authority_Districts_December_2021_UK_BFC_2022_-6196036569057273538.geojson
+api/Data/datasets/geodata/Uk-LAD-cons.qgz
+api/TextAnalysis/models/w2v/word2vec_2024-06-01_17-57-04.model
+api/TextAnalysis/models/w2v/word2vec_2024-06-01_19-08-21.model
+api/TextAnalysis/models/w2v/word2vec_2024-06-01_23-00-07.model
+api/TextAnalysis/models/w2v/word2vec_2024-06-01_23-27-21.model
+api/TextAnalysis/models/w2v/word2vec_2024-06-02_09-18-18.model

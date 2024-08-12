@@ -9,7 +9,7 @@ class Place(BaseModel):
     Address: Optional[str] = Field(None, max_length=255)
     Latitude: Optional[Decimal] = Field(1)
     Longitude: Optional[Decimal] = Field(1)
-    Rating: Decimal = Field(None, ge=1, le=5)
+    Rating: Decimal = Field(None, ge=-1, le=5)
     Url: Optional[str] = Field(None, max_length=255)
     Type: Optional[str] = Field(None, max_length=255)
     Prompt: str = Field(..., max_length=255)
