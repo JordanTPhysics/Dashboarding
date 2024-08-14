@@ -33,6 +33,14 @@ class Contact(BaseModel):
         if not str(v).startswith('http://') and not str(v).startswith('https://'):
             raise ValueError('The URL is not valid. It must start with http:// or https://.')
         return v
+    
+    def to_dict(self):
+        return {
+            "PlaceId": self.PlaceId,
+            "PhoneNumber": self.PhoneNumber,
+            "Email": self.Email,
+            "Url": self.Url
+        }
 
 # Example of using the Contact model
 # try:

@@ -34,6 +34,7 @@ class DataAdapter:
 
     @db_transaction
     def bulk_insert_places(self, places):
+        logging.debug(f'Inserting {len(places)} places')
         for place in places:
             self.cursor.callproc('InsertPlace',
                                 (place["PlaceID"],
@@ -44,10 +45,12 @@ class DataAdapter:
                                 place["Rating"] if place["Rating"] is not None else -1.0,
                                 place["Url"],
                                 place["Types"],
-                                place["Prompt"]))
+                                place["Prompt"],
+                                place["PhoneNumber"]))
 
     @db_transaction
     def bulk_insert_reviews(self, reviews):
+        logging.debug(f'Inserting {len(reviews)} reviews')
         for review in reviews:
             self.cursor.callproc('InsertReview',
                                 (review["PlaceID"],

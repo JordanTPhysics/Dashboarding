@@ -13,7 +13,8 @@ CREATE PROCEDURE InsertPlace (
     IN prating DECIMAL,
     IN purl VARCHAR(255),
     IN ptypes VARCHAR(255),
-    IN pprompt VARCHAR(255)
+    IN pprompt VARCHAR(255),
+    IN pphone VARCHAR(20)
 )
 BEGIN
     INSERT IGNORE INTO Places (
@@ -25,7 +26,8 @@ BEGIN
         Rating,
         Url,
         Types,
-        Prompt
+        Prompt,
+        Phone
     )
     VALUES (
         pid,
@@ -36,7 +38,8 @@ BEGIN
         prating,
         purl,
         ptypes,
-        pprompt
+        pprompt,
+        pphone
     )
 END;$$
 

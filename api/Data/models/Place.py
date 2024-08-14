@@ -13,6 +13,7 @@ class Place(BaseModel):
     Url: Optional[str] = Field(None, max_length=255)
     Type: Optional[str] = Field(None, max_length=255)
     Prompt: str = Field(..., max_length=255)
+    Phone: Optional[str] = Field(None, max_length=20)
 
     def __str__(self):
         return f"PlaceID: {self.PlaceID}, PlaceName: {self.PlaceName}, Address: {self.Address}, Latitude: {self.Latitude}, Longitude: {self.Longitude}, Rating: {self.Rating}, Url: {self.Url}"

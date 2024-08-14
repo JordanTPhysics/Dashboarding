@@ -26,7 +26,7 @@ def main(use_preset=False):
     db = DataAdapter(db_config)
 
     if use_preset:
-        places = pd.read_csv('datasets/languagetutorsmichal.csv', encoding='utf-8')['Places']
+        places = pd.read_csv('datasets/environment_prospects.csv', encoding='utf-8')['Places']
         regions = pd.read_csv('datasets/locations_uk.csv', encoding='utf-8')['City']
         for place in places:
             for region in regions:

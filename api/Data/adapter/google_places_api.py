@@ -43,6 +43,7 @@ def process_place(place, prompt):
     rating = place.get('rating')
     website_uri = place.get('websiteUri')
     types = ", ".join(place.get('types'))
+    phone_number = place.get('nationalPhoneNumber')
 
     ret = {
         'PlaceID': place_id,
@@ -53,7 +54,8 @@ def process_place(place, prompt):
         'Rating': rating,
         'Url': website_uri,
         'Types': types,
-        'Prompt': prompt
+        'Prompt': prompt,
+        'PhoneNumber': phone_number
     }
     return ret
 
@@ -75,7 +77,7 @@ def begin_crawler(query, db):
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'X-Goog-Api-Key': API_KEY,
-        'X-Goog-FieldMask': 'places.displayName,places.types,places.formattedAddress,places.location,places.rating,places.websiteUri,places.name,contextualContents.reviews.rating,contextualContents.reviews.originalText.text,contextualContents.reviews.publishTime,contextualContents.reviews.name,nextPageToken'
+        'X-Goog-FieldMask': 'places.displayName,places.types,places.formattedAddress,places.location,places.rating,places.websiteUri,places.name,places.nationalPhoneNumber,contextualContents.reviews.rating,contextualContents.reviews.originalText.text,contextualContents.reviews.publishTime,contextualContents.reviews.name,nextPageToken'
     }
 
     payload = {
@@ -107,7 +109,6 @@ def begin_crawler(query, db):
 
     #next_page_token = response.json().get('nextPageToken')
     while next_page_token:
-        logging.debug(f'Page {page}')
         time.sleep(2)
         payload['pageToken'] = next_page_token
         response = requests.get(BASE_URL, headers=headers, params=payload)
