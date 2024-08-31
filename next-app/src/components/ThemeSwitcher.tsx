@@ -1,7 +1,10 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
+
+
 function ThemeSwitcher() {
+  
   const storedTheme = window.localStorage.getItem('prefered-theme');
   const checkTheme = () => {
     if (storedTheme === 'darkTheme') {
@@ -41,8 +44,8 @@ function ThemeSwitcher() {
     <div className='theme-switcher items-center justify-center align-middle text-info '>
       <button
         type='button'
-        className={`dark-mode-switch cursor-pointer mr-6 w-[40px] h-[40px] p-[10px] rounded-[100%]
-        border ${!isLight && 'hidden'} text-border border-border mx-2`}
+        className={`dark-mode-switch cursor-pointer w-[18px] h-[18px]
+         ${!isLight && 'hidden'} text-border`}
         onClick={setDarkTheme}
       >
         <svg
@@ -59,8 +62,8 @@ function ThemeSwitcher() {
       </button>
       <button
         type='button'
-        className={`light-mode-switch cursor-pointer mr-6 w-[40px] h-[40px] p-[10px] rounded-[100%]
-        border ${isLight && 'hidden'} text-border border-border mx-2`}
+        className={`light-mode-switch cursor-pointer w-[18px] h-[18px]
+         ${isLight && 'hidden'} text-yellow-500`}
         onClick={setLightTheme}
       >
         <svg

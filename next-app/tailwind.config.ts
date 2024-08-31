@@ -14,6 +14,7 @@ const config: Config = {
       },
       colors: {
         background: "rgba(var(--background))",
+        foreground: "rgba(var(--foreground))",
         secondary: "rgba(var(--background-secondary))",
         warning: "rgba(var(--warning))",
         success: "rgba(var(--success))",

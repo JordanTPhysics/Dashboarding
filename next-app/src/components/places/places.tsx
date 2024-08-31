@@ -14,8 +14,9 @@ export type Place = {
   Longitude: number
   Rating: number
   Url: string
-  Types: string[]
+  Types: string
   Prompt: string
+  Phone: string
 }
 
 export const columns: ColumnDef<Place>[] = [
@@ -119,26 +120,12 @@ export const columns: ColumnDef<Place>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Latitude
+          Phone
           <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
         </Button>
       )
 
-    }, accessorKey: "Latitude"
+    }, accessorKey: "Phone"
   },
-  {
-    header: ({ column }) => {
-      return (
-        <Button
-          className="text-white"
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Longitude
-          <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
-        </Button>
-      )
 
-    }, accessorKey: "Longitude"
-  }
 ]

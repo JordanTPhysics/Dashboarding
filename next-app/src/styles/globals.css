@@ -38,56 +38,41 @@
     --radius: 0.5rem;
 
     --background: 115 120 184;
+    --foreground: 155 153 208;
     --background-secondary: 155 155 245;
     --border: 125 0 125;
-    --warning: 233 72 8 0.8;
-    --success: 39 181 39 0.8;
-    --danger: 255 0 0 0.8;
-    --info: 53 53 193 0.8;
-    --secondary: 255 0 0 0.8;
-    --contrast: 10 10 10 0.8;
+    --warning: 233 72 8;
+    --success: 39 181 39;
+    --danger: 255 0 0;
+    --info: 53 53 193;
+    --secondary: 255 0 0;
+    --contrast: 10 10 10;
     --text: 33 33 60;
   }
   .dark {
     --background: 38 32 59;
+    --foreground: 0 2 47;
     --background-secondary: 15 15 180;
     --border: 155 155 245;
-    --warning: 233 72 8 0.8;
-    --success: 39 181 39 0.8;
-    --danger: 255 0 0 0.8;
-    --info: 53 53 193 0.8;
-    --secondary: 255 0 0 0.8;
-    --contrast: 245 245 245 0.8;
+    --warning: 233 72 8;
+    --success: 39 181 39;
+    --danger: 255 0 0;
+    --info: 53 53 193;
+    --secondary: 255 0 0;
+    --contrast: 245 245 245;
     --text: 113 113 250;
   }
 
-  .custom-link {
-    @apply text-2xl font-bold;
-    border: 0.25rem solid rgb(var(--border));
-    color: rgba(var(--border));
-    background-color: rgba(var(--background-secondary));
-    padding-left: 2px;
-    padding-right: 2px;
-    border-radius: 2px;
-  
+  .smooth:hover {
+    transition: .3s ease-in-out;
   }
+
   
-  .custom-link:hover {
-    border-radius: 10px; 
-    border: 0.5rem solid rgba(var(--background-secondary) 1);
-    color: rgba(var(--background-secondary));
-    background-color: rgba(var(--border));
+  .active {
+    background-color: var(--foreground);
+    color: var(--foreground);
   }
-  
-  .navigation-menu {
-    color: var(--menu-text-color);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 1rem;
-    flex-wrap: nowrap;
-  
-  }
+
 }
 
 @layer components {

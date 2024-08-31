@@ -33,7 +33,7 @@ const Contact = () => {
 
     return (
         
-        <div className="grid grid-cols-12 gap-1 bg-background h-[80vh]">
+        <div className="grid grid-cols-12 gap-1 bg-background ">
             <div className="col-span-12 row-span-2">
             <h1 className="text-3xl font-bold">Contact Us</h1>
             </div>

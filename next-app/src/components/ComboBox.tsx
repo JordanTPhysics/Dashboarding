@@ -36,7 +36,7 @@ export function ComboBox({ setValue, value }: Props) {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between bg-contrast border-border text-text m-4"
+                    className="w-[200px] justify-between bg-foreground border-border text-text m-4"
                 >
                     {value
                         ? columns.find((column) =>{
@@ -50,7 +50,7 @@ export function ComboBox({ setValue, value }: Props) {
             {columns.map((column) => (
           <div
             key={column.value}
-            className="flex items-center p-2 cursor-pointer hover:bg-contrast hover:text-background"
+            className="flex items-center p-2 cursor-pointer hover:bg-background hover:text-white"
             onClick={() => {
               setValue(column.value);
               setOpen(false);

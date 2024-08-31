@@ -48,8 +48,8 @@ async def get_reviews(db: AsyncSqlAdapter = Depends(connect)):
     return reviews
 
 @app.get("/places", response_model=List[Place])
-def get_places(db: AsyncSqlAdapter = Depends(connect)):
-    places = db.get_place()
+async def get_places(db: AsyncSqlAdapter = Depends(connect)):
+    places = await db.get_places()
     return places
 
 @app.get("/reviews/filter", response_model=List[dict])

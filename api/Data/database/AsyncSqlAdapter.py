@@ -92,7 +92,8 @@ class AsyncSqlAdapter:
                 'Types': row[5],
                 'Prompt': row[6],
                 'Latitude': row[7],
-                'Longitude': row[8]
+                'Longitude': row[8],
+                'Phone': row[9]
             })
         return places
     
@@ -101,7 +102,27 @@ class AsyncSqlAdapter:
         self.cursor.callproc('GetPlace', (place_id,))
         result = next(self.cursor.stored_results())
         place = result.fetchone()
-        return Place(place[0], place[1], place[2], place[3], place[4], place[5], place[6], place[7], place[8])
+        return Place(place[0], place[1], place[2], place[3], place[4], place[5], place[6], place[7], place[8], place[9])
+    
+    @async_db_transaction
+    async def get_places(self) -> List[Place]:
+        await self.cursor.callproc('GetAllPlaces')
+        places = []
+        async for row in self.cursor:
+            place = Place(
+                       PlaceID = row[0],
+                       PlaceName = row[1],
+                       Address = row[2],
+                       Rating = row[3],
+                       Url = row[4],
+                       Type = row[5],
+                       Prompt = row[6],
+                       Latitude = row[7],
+                       Longitude = row[8],
+                       Phone = row[9])
+            places.append(place)
+        logging.debug(f'Loading {len(places)} places')
+        return places
     
     @async_db_transaction
     async def get_review(self, review_id: int) -> Review:

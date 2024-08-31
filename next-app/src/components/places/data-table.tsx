@@ -63,11 +63,11 @@ export function DataTable<TData, TValue>({
     })
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 justify-center items-center">
             <div className="bg-background border-border text-text">
                 <ComboBox setValue={handleFilter} value={filterCol} /></div>
             <Input
-                className="bg-contrast border-border text-text m-4"
+                className="bg-foreground border-border text-text m-4"
                 color="contrast"
                 placeholder={`Filter ${filterCol}...`}
                 value={(table.getColumn(filterCol)?.getFilterValue() as string) ?? ""}
@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({
                     table.getColumn(filterCol)?.setFilterValue(event.target.value)
                 }
             />
-            <div className="rounded-md border-4 border-border bg-contrast col-span-4 ">
+            <div className="rounded-md border-4 border-border bg-foreground col-span-4 w-[95vw]">
                 <Table>
                     <TableHeader className="border-border text-text">
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -101,7 +101,7 @@ export function DataTable<TData, TValue>({
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
-                                    className="hover:bg-contrast border-border"
+                                    className="hover:bg-background border-border text-text"
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                 >

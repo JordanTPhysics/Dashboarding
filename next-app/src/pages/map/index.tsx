@@ -45,7 +45,7 @@ function DashMap({ data, lat, lon }: DashMapProps) {
 
     return (
         
-            <div className='h-[80vh]' ref={mapRef} style={containerStyle}></div>
+            <div className='' ref={mapRef} style={containerStyle}></div>
         
     )
 }

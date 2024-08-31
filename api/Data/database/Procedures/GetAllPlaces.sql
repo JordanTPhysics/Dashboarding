@@ -6,7 +6,19 @@ DELIMITER $$
 
 CREATE PROCEDURE GetAllPlaces()
 BEGIN
-    SELECT * FROM Places;
+    SELECT
+        PlaceID,
+        PlaceName,
+        Address,
+        Rating,
+        Url,
+        Types,
+        Prompt,
+        Latitude,
+        Longitude,
+        Phone 
+    FROM Places
+    LIMIT 1000;
 END$$
 
 DELIMITER ;
