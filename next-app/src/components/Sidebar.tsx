@@ -10,7 +10,7 @@ const ThemeSwitcher = dynamic(() => import('./ThemeSwitcher'), { ssr: false });
 
 
 import { RxLightningBolt, RxHome, RxDrawingPin, RxBarChart, RxEnvelopeOpen } from 'react-icons/rx';
-import { FiSearch } from 'react-icons/fi';
+import { FiSearch, FiGithub } from 'react-icons/fi';
 
 const linkClassName = 'bg-secondary text-text m-3 p-3 rounded-lg inline-block hover:ml-0 hover:mr-0 hover:bg-foreground smooth';
 
@@ -35,6 +35,7 @@ const Sidebar = ({ children }: { children: ReactNode }) => {
                 <NavLink href="/api" > <RxLightningBolt size={20} color={iconColor} /> </NavLink >
                 <NavLink href="/contact" ><RxEnvelopeOpen size={20} color={iconColor} /> </NavLink >
                 <NavLink href="/form" ><FiSearch size={20} color={iconColor} /> </NavLink >
+                <NavLink href="https://github.com/JordanTPhysics/Dashboarding" ><FiGithub size={20} color={iconColor} /> </NavLink >
             </div>
             <main className='ml-20 w-full h-full'>
                 <header className='bg-background items-center text-center'>

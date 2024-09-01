@@ -7,7 +7,7 @@ type NavLinkProps = {
 };
 
 const linkClassName = 'bg-secondary text-text m-3 p-3 rounded-lg inline-block hover:ml-0 hover:mr-0 hover:bg-foreground smooth';
-const activeLinkClassName =  "ml-0 mr-0 bg-foreground border border-4" + linkClassName;
+const activeLinkClassName =  "ml-0 mr-0 bg-foreground border border- " + linkClassName;
 
 const NavLink = ({ href, children }: NavLinkProps) => {
     const router = useRouter();
@@ -15,7 +15,7 @@ const NavLink = ({ href, children }: NavLinkProps) => {
 
     return (
         <div className={isActive ? activeLinkClassName : linkClassName}>
-            <Link href={href}>
+            <Link href={href} className=''>
                 {children}  
             </Link>
         </div>

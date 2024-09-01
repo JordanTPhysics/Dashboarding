@@ -33,7 +33,7 @@ type Props = {
 export default function Dash({ places }: Props) {
   return (
 
-    <div className='grid grid-cols-12 gap-1 bg-background '>
+    <div className='grid grid-cols-12 gap-1 bg-background h-[90vh]'>
       <div className='col-span-12 row-span-2'>
         <h1 className='text-3xl font-bold'>Places Dashboard</h1>
       </div>

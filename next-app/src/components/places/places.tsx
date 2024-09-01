@@ -110,8 +110,15 @@ export const columns: ColumnDef<Place>[] = [
         </Button>
       )
 
-    }, accessorKey: "Url"
-  },
+    }, accessorKey: "Url",
+    cell: ({ cell }) => {
+      return (
+        <a href={cell.row.original.Url} target="_blank" rel="noreferrer">
+          {cell.row.original.Url} </a>
+      );
+    },
+  }
+  ,
   {
     header: ({ column }) => {
       return (
@@ -126,6 +133,7 @@ export const columns: ColumnDef<Place>[] = [
       )
 
     }, accessorKey: "Phone"
+
   },
 
 ]
