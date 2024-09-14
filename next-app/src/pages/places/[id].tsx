@@ -39,7 +39,7 @@ const PlacePage = () => {
             getPlace();
             getPlaceReviews();
         }
-    }, [id]);
+    }, [id, getPlace, getPlaceReviews]);
 
 
     return (
