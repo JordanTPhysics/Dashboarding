@@ -1,35 +1,16 @@
-
+"use client";
 import { DataTable } from "../../components/places/data-table";
-import { Place, columns } from "../../components/places/places";
+import { columns } from "../../components/places/places";
 
-export async function getServerSideProps() {
-  try {
-    const res = await fetch('http://127.0.0.1:8000/places');
-    const data = await res.json();
+import { useData } from "@/src/lib/DataProvider";
 
-    return {
-      props: {
-        places: data, // Make sure data is resolved and passed correctly
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching places:", error);
-    return {
-      props: {
-        places: [],
-      },
-    };
-  }
-}
+export default function Places() {
 
-type SearchProps = {
-  places: Place[];
-}
+  const { places } = useData();
 
-export default function Places({ places }: SearchProps) {
   return (
-        <div className="bg-background grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 h-[95vh]">
-          <div className=" col-span-4 ">
+        <div className="bg-background grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 lg:h-screen md:h-full sm:h-full">
+          <div className="col-span-4 text-text text-3xl">
             {places ? <DataTable columns={columns} data={places} /> : <p>Loading...</p>}
           </div>
         </div>

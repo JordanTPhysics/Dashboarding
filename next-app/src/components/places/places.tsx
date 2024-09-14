@@ -5,6 +5,7 @@ import React from "react"
 import { ColumnDef } from "@tanstack/react-table"
 import { Button } from "../ui/button"
 import { ArrowUpDown } from "lucide-react"
+import Link from "next/link"
 
 export type Place = {
   PlaceID: string
@@ -19,6 +20,45 @@ export type Place = {
   Phone: string
 }
 
+export const CountPlaceType = (places: Place[]) => {
+  const placeType: { [key: string]: number } = {};
+  places.forEach((place) => {
+      place.Types.split(",").forEach((type) => {
+          let s = type.trim();
+          if (s === "") return;
+          if (placeType[s]) {
+              placeType[s] += 1;
+          } else {
+              placeType[s] = 1;
+          }
+      });
+  }
+  );
+  return placeType;
+}
+export const GroupByRating = (places: Place[]) => {
+  const RankedRating: { [key: string]: number } = {
+      "Great! (4-5)": 0,
+      "Good (3-4)": 0,
+      "Bad (0-3)": 0,
+      "Unrated": 0
+  };
+  places.forEach((place) => {
+      if (place.Rating > 4) {
+
+          RankedRating["Great! (4-5)"] += 1;
+      } else if (place.Rating > 3) {
+          RankedRating["Good (3-4)"] += 1;
+      }
+      else if (place.Rating >= 0) {
+          RankedRating["Bad (0-3)"] += 1;
+      } else {
+          RankedRating["Unrated"] += 1;
+      }
+  });
+  return RankedRating;
+}
+
 export const columns: ColumnDef<Place>[] = [
   {
     header: ({ column }) => {
@@ -28,12 +68,19 @@ export const columns: ColumnDef<Place>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          <Link href={""} > Name</Link>
           <ArrowUpDown className="ml-2 h-4 w-4 text-white" />
         </Button>
       )
 
-    }, accessorKey: "PlaceName"
+    },
+    accessorKey: "PlaceName",
+    cell: ({ cell }) => {
+      return (
+        <Link href={`/places/${cell.row.original.PlaceID}`} rel="noreferrer">
+          {cell.row.original.PlaceName} </Link>
+      );
+    },
   },
 
   {
@@ -113,7 +160,7 @@ export const columns: ColumnDef<Place>[] = [
     }, accessorKey: "Url",
     cell: ({ cell }) => {
       return (
-        <a href={cell.row.original.Url} target="_blank" rel="noreferrer">
+        <a href={cell.row.original.Url} target="_blank" rel="noreferrer" className="decoration-contrast">
           {cell.row.original.Url} </a>
       );
     },

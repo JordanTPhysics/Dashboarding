@@ -72,40 +72,43 @@ export function DataTable<TData, TValue>({
     })
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 justify-center items-center mr-4 ml-4">
-            <div className="bg-background border-border text-text">
-                <ComboBox setValue={handleFilter} value={filterCol} />
+        <div className="flex flex-col justify-center items-center mr-4 ml-4">
+            <div className="flex flex-col lg:flex-row justify-center items-center" >
+                <div className="bg-background border-border text-text m-4">
+                    <ComboBox setValue={handleFilter} value={filterCol} />
+                </div>
+                <Input
+                    className="bg-foreground border-border text-text m-4"
+                    color="contrast"
+                    placeholder={`Filter ${filterCol}...`}
+                    value={(table.getColumn(filterCol)?.getFilterValue() as string) ?? ""}
+                    onChange={(event) =>
+                        table.getColumn(filterCol)?.setFilterValue(event.target.value)
+                    }
+                />
+                <div className="flex items-center justify-end space-x-2 py-4">
+                    <Button
+                        className="bg-foreground border-border text-text m-4 smooth hover:scale-110 hover:bg-danger"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        Previous
+                    </Button>
+                    <Button
+                        className="bg-foreground border-border text-text m-4 smooth hover:scale-110 hover:bg-success"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        Next
+                    </Button>
+                </div>
             </div>
-            <Input
-                className="bg-foreground border-border text-text m-4"
-                color="contrast"
-                placeholder={`Filter ${filterCol}...`}
-                value={(table.getColumn(filterCol)?.getFilterValue() as string) ?? ""}
-                onChange={(event) =>
-                    table.getColumn(filterCol)?.setFilterValue(event.target.value)
-                }
-            />
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <Button
-                    className="bg-foreground border-border text-text m-4 smooth hover:scale-110 hover:bg-danger"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    Previous
-                </Button>
-                <Button
-                    className="bg-foreground border-border text-text m-4 smooth hover:scale-110 hover:bg-success"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    Next
-                </Button>
-            </div>
-            <div className="rounded-md border-4 border-border bg-foreground col-span-4 w-[95vw]">
+
+            <div className="rounded-md border-4 border-border bg-foreground w-[95vw]">
                 <Table>
                     <TableHeader className="border-border text-text">
                         {table.getHeaderGroups().map((headerGroup) => (

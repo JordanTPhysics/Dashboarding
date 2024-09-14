@@ -1,77 +1,72 @@
 // page.js this is the entry point of application
 
 "use client";
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import 'chart.js/auto';
 import { ChartOptions } from 'chart.js';
 
-import { Place } from '../places/places';
+import { Place, CountPlaceType } from '../places/places';
+import { getChartColors, ChartColors, linearGradient, exponentialGradient } from '../../lib/themeColours';
 
 const Bar = dynamic(() => import('react-chartjs-2').then((mod) => mod.Bar), {
   ssr: false,
 });
 
 type BarChartProps = {
-  data: Place[];
+  places: Place[];
 
 };
 
-const BarChart = ({ data }: BarChartProps) => {
+const BarChart = ({ places }: BarChartProps) => {
+  const [chartColours, setChartColours] = useState<ChartColors>(getChartColors());
 
-  const colours = ["#FF6633", "#FFB399", "#FF33FF", "#FFFF99", "#00B3E6",]
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  useEffect(() => {
+    const updateChartColours = () => {
+      setChartColours(getChartColors());
+    };
+    // Update colors initially
+    updateChartColours();
+    // Observe changes to the 'dark' class on the <html> element
+    const observer = new MutationObserver(() => updateChartColours());
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-  const CreateDataSet = (data: Place[], title: string) => {
-    const labels = data.keys();
+    return () => observer.disconnect();
+  }, []);
 
-    const values = Array.from(data.values());
-   
+  const placeTypes = CountPlaceType(places);
+  const typeCounts = Object.entries(placeTypes);
+  typeCounts.sort(([, a], [, b]) => b - a);
+
+  const CreateDataSet = (data: [string, Number][], title: string) => {
     return {
-      labels: labels,
-      data: values,
+      labels: data.map(([type]) => type),
+      data: data.map(([, count]) => count),
       title: title,
       label: title,
-
-      backgroundColor: [
-        colours[Math.floor(Math.random() * colours.length)],
-
-      ],
-      borderColor: [
-        colours[Math.floor(Math.random() * colours.length)],
-
-      ],
+      backgroundColor: linearGradient(chartColours.success, chartColours.danger, data.length),
+      borderColor: linearGradient(chartColours.success, chartColours.danger, data.length),
       borderWidth: 1,
+      
     };
   }
 
   const options: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
+    backgroundColor: chartColours.foreground,
+    color: chartColours.text,
     plugins: {
       tooltip: {
         callbacks: {
           label: (context) => {
-            const label = context.dataset.label || '';
-            if (label) {
-              const numbers = context.dataset.data as number[];
-              return `${label}: ${context.parsed.y * Math.max(...numbers)}`;
-            }
-            return [];
+            return context.parsed.y.toString() || '';
           },
         },
       },
       legend: {
-        display: true,
-        position: 'right',
-        labels: {
-            font: {
-                size: 18,
-                family: 'Arial',
-            },
-            color: 'white',
-            boxWidth: 20,
-            padding: 0,
-        },
+        display: false,
+
     },
         datalabels: {
             display: false,
@@ -79,13 +74,20 @@ const BarChart = ({ data }: BarChartProps) => {
     },
     scales: {
         x: {
-          labels: months,
+          labels: typeCounts.map(([type]) => type),
             title: {
                 display: true,
-                text: 'Months',
-                color: 'white',
+                text: 'Place Types',
+                color: chartColours.text,
                 font: {
                     size: 18,
+                    family: 'Arial',
+                },
+            },
+            ticks: {
+                color: chartColours.text,
+                font: {
+                    size: 14,
                     family: 'Arial',
                 },
             },
@@ -93,8 +95,8 @@ const BarChart = ({ data }: BarChartProps) => {
         y: {
             title: {
                 display: true,
-                text: 'Proportion Of Max Value',
-                color: 'white',
+                text: 'Count',
+                color: chartColours.text,
                 font: {
                     size: 18,
                     family: 'Arial',
@@ -105,12 +107,15 @@ const BarChart = ({ data }: BarChartProps) => {
   };
 
   const chartData = {
-    labels: months,
+    labels: typeCounts.map(([type]) => type),
+    title: 'Places distribution by type',
     datasets: [
-      CreateDataSet(data, "Max"),
+      CreateDataSet(typeCounts , "Places distribution by type"),
     ],
   };
 
-  return <Bar data={chartData} options={options} />;
+  return <div className='h-[50vh] lg:w-[95vw] md:w-[95vw] sm:w-screen bg-foreground border-4 border-border rounded-lg p-2 m-1 ' > <Bar data={chartData} options={options} /></div>;
+
+   
 };
 export default BarChart;

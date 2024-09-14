@@ -1,54 +1,52 @@
+"use client";
+
 import React from 'react';
 
-import { Place } from '../../components/places/places';
 import BarChart from '../../components/PlaceCharts/BarChart';
 import PieChart from '../../components/PlaceCharts/PieChart';
-import Sidebar from '../../components/PlaceCharts/SideBar';
+import TimeSeriesChart from '@/src/components/PlaceCharts/TimeSeries';
+import { useData } from '../../lib/DataProvider';
 
-
-export async function getServerSideProps() {
+const parseJson = (json: string) => {
   try {
-    const res = await fetch('http://127.0.0.1:8000/places');
-    const data = await res.json();
+    const obj = JSON.parse(json);
+    let filter = '';
+    for (const key in obj) {
+      if (obj[key] !== '' && obj[key] !== null && obj[key] !== 0) {
+        filter += `${key}: ${obj[key]}\n`;
+      }
+    }
+    return filter;
 
-    return {
-      props: {
-        places: data, // Ensure `data` is resolved before passing to the component
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching places:", error);
-    return {
-      props: {
-        places: [],
-      },
-    };
+  } catch (e) {
+    return json;
   }
 }
 
-type Props = {
-  places: Place[];
-};
+export default function Dash() {
 
-export default function Dash({ places }: Props) {
+  const { places, reviews } = useData();
+
+  const filterText = parseJson(sessionStorage.getItem('filter') || '') || 'All Places';
+ 
   return (
 
-    <div className='grid grid-cols-12 gap-1 bg-background h-[90vh]'>
+    <div className='grid grid-cols-12 bg-background h-screen lg:h-full text-text text-xl text-center'>
       <div className='col-span-12 row-span-2'>
-        <h1 className='text-3xl font-bold'>Places Dashboard</h1>
+        <h1 className='lg:text-3xl sm:text-lg font-bold'>Places Dashboard</h1>
+        <h2 className='lg:text-xl sm:text-lg'>{filterText}</h2>
       </div>
-      <div className='col-span-5'>
-        <PieChart />
+      <div className='lg:col-span-4 col-span-12'>
+      { places ? <PieChart places={places}/> : <p>Loading...</p> }
       </div>
-      <div className='col-span-4'>
-        <h2 className='text-xl font-bold'>Place Types</h2>
-        <p className='text-sm '>A breakdown of the types of places you have visited</p>
+      <div className='lg:col-span-5 col-span-12'>
+        {reviews ? <TimeSeriesChart data={reviews} /> : <p>Loading...</p>}
       </div>
-      <div className='col-span-3'>
-        <Sidebar />
+      <div className='lg:col-span-3'>
+
       </div>
-      <div className='col-span-12 h-[50vh]'>
-        <BarChart data={places} />
+      <div className='col-span-12 '>
+        {places ? <BarChart places={places} /> : <p>Loading...</p>}
       </div>
     </div>
 

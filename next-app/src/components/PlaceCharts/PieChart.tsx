@@ -1,54 +1,53 @@
-
-"use client"
-import React from "react";
+"use client";   
+import React, { useState, useEffect} from "react";
 import { Pie, ChartProps } from "react-chartjs-2";
 import Chart from 'chart.js/auto';
 import { ChartOptions } from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import { Place } from "../places/places";
-
+import { Place, GroupByRating } from "../places/places";
+import { getChartColors, ChartColors } from '../../lib/themeColours';
 Chart.register(ChartDataLabels);
 
-const placeholderData = {
-    'Restaurant': 5,
-    'Coffee Shop': 3,
-    'Bar': 2,
-    'Park': 1,
-    'Museum': 1,
-    'Zoo': 1,
-    'Gym': 1,
-    'Library': 1,
-    'Movie Theater': 1,
-
-}
-
-export const CountPlaceTypes = (data: Place[]) => {
-    const placeTypes: { [key: string]: number } = {};
-    data.forEach((place) => {
-        const types: string[] = place.Types;
-        types.forEach((type) => {
-            if (placeTypes[type]) {
-                placeTypes[type] += 1;
-            } else {
-                placeTypes[type] = 1;
-            }
-        });
-    }
-    );
-    return placeTypes;
-}
 
 type Props = {
-    data: Place[];
+    places: Place[];
 }
 
-const PieChart = () => {
+const PieChart = ({ places }: Props) => {
+
+    const [chartColours, setChartColours] = useState<ChartColors>(getChartColors());
+
+    useEffect(() => {
+      const updateChartColours = () => {
+        setChartColours(getChartColors());
+      };
+  
+      // Update colors initially
+      updateChartColours();
+  
+      // Observe changes to the 'dark' class on the <html> element
+      const observer = new MutationObserver(() => updateChartColours());
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  
+      return () => observer.disconnect();
+    }, []);
 
     const options: ChartOptions<'pie'> = {
         responsive: true,
         maintainAspectRatio: false,
+        backgroundColor: chartColours.backgroundSecondary,
+        color: chartColours.text,
         plugins: {
+            title: {
+                display: true,
+                text: "Place Amicability",
+                font: {
+                    size: 24,
+                    family: 'Arial',
+                },
+                color: chartColours.text,
+            },
             legend: {
                 display: true,
                 position: 'right',
@@ -57,7 +56,7 @@ const PieChart = () => {
                         size: 18,
                         family: 'Arial',
                     },
-                    color: 'white',
+                    color: chartColours.text,
                     boxWidth: 20,
                     padding: 0,
                 },
@@ -83,37 +82,28 @@ const PieChart = () => {
                     weight: 'bold',
                     family: 'Arial',
                 },
-                color: 'white'
+                color: "white",
             }
         },
     }
-
-    //const placeTypes = CountPlaceTypes(data);
     const chartData = {
-        labels: Object.keys(placeholderData),
+        labels: Object.keys(GroupByRating(places)),
         datasets: [
             {
                 label: "Places",
-                data: Object.values(placeholderData),
+                data: Object.values(GroupByRating(places)),
                 backgroundColor: [
-                    "rgba(255, 99, 132, 0.6)",
-                    "rgba(54, 162, 235, 0.6)",
-                    "rgba(255, 206, 86, 0.6)",
-                    "rgba(75, 192, 192, 0.6)",
-                    "rgba(153, 102, 255, 0.6)",
-                    "rgba(255, 159, 64, 0.6)",
-                    "rgba(255, 99, 132, 0.6)",
-                    "rgba(54, 162, 235, 0.6)",
-                    "rgba(255, 206, 86, 0.6)",
-                    "rgba(75, 192, 192, 0.6)",
-                    "rgba(153, 102, 255, 0.6)",
-                    "rgba(255, 159, 64, 0.6)",
+                    chartColours.success,
+                    chartColours.warning,
+                    chartColours.danger,
+                    chartColours.info,
+
                 ],
             },
         ],
     };
 
-    return <Pie data={chartData} options={options} />;
+    return <div className="bg-foreground h-[50vh] lg:w-[30vw] md:w-[30vw] sm:w-screen rounded-lg border-4 border-border m-1 p-1 "> <Pie data={chartData} options={options} /></div> ;
 }
 
 export default PieChart;
